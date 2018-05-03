@@ -138,6 +138,6 @@ class textParse():
 
 if __name__ == "__main__":
     allText = wordDocx.getAllParagraphs(wordDocx.fileList(docxPath))
-    print(allText[:1])
+    print(allText)
 
 
