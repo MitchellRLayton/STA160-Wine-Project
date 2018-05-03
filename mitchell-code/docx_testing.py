@@ -9,8 +9,11 @@ import cv2
 
 import docx
 import pytesseract
+
+# path to pytesseract executable
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Users\\layto\\AppData\\Local\\Tesseract-OCR\\tesseract'
 
+# file to folder containg Duncan's .docx
 docxPath = 'C:\\Users\\layto\\SampleWineCatalogs\\Docx_Files'
 
 class wordDocx():
