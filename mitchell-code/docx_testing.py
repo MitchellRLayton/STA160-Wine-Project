@@ -52,10 +52,7 @@ class wordDocx():
         else:
             raise AttributeError('Needs list of full file paths to the .docx files')
         
-    
-#     def processParagraphs(paragraphs):
-#         docText = []
-#         for f in range(len(files)):
+
 
 class textParse():
 
@@ -126,18 +123,242 @@ class textParse():
                 return({'\t':result[1],'by':result[1]-result[0]})
         else:
             raise AttributeError('Input a list of strings')
+
+
+class identifyFormat():
+    
+    def __init__(self, pargraph):
+        self.paragraph = paragraph
         
-    def disjointNames(self):
+    def years(mini,maxi):
         '''
-        Finds disjoint text where name of wine, parenthesis, and prices are split up 
+        Generates a set of guess year ranges for alcohols
         '''
+        import numpy as np
+        years = set([n for n in np.arange(mini,maxi,1)])
+        return(years)
+
+    def removeSpecial(self):
         
-        return(joint)
+        special = set([',','"','|','\\',':',';','`','~','$','#'])
+        split = self.split(' ')
+        split = [x for x in split if len(x) > 0]
+        fixed = []
+        
+        for i in range(len(split)):
+            test = list(split[i])
+            if len(set(test).intersection(special)) == 0 and '.' not in test:
+                fixed.append(split[i])
+            elif test[-1] == '.' and test[0] != '.':
+                test = test[:-1]
+                split[i] = ''.join(test)
+                fixed.append(split[i])
+            elif '.' in test:
+                if len([x for x in test if x == '.']) == 1:
+                    try:
+                        if isinstance(int(''.join([x for x in test if x != '.'])),int):
+                            split[i] = ''.join(test)
+                            fixed.append(split[i])
+                    except ValueError:
+                        continue
+                elif len([y for y in [x.find('.') for x in test] if y == 0]) != 1:
+                    length = len([y for y in [x.find('.') for x in test] if y == 0])-1
+                    test = test[length:]
+                    split[i] = ''.join(test)
+                    fixed.append(split[i])
+            else:
+                while len(set(test).intersection(special)) > 0:
+                    ind = [test.index(x) for x in set(test).intersection(special)]
+                    for index in ind:
+                        test.pop(index)
+                    split[i] = ''.join(test)
+                    if len(set(split[i]).intersection(special)) == 0:
+                        fixed.append(split[i])
+                        break
+                    else:
+                        continue
+                
+        fixed = ' '.join([''.join(x) for x in fixed])
+        return(fixed)
+    
+    
+    def fixBottlePrices(self):
+        '''
+        Removes special, and fixes bottle prices
+        '''
+        fixed = identifyFormat.removeSpecial(self)
+        split = fixed.split(' ')
+        split = [x for x in split if len(x) > 0]
+        setRange = np.arange(1,5000,1)
+        
+        for i in range(len(split)):
+            if '.' in list(split[i]) and i >= 2:
+                tryInt = split[i-1]
+                intList = list(tryInt)
+                try:
+                    if isinstance(int(tryInt),int):
+                        getLength = len(intList)
+                        if getLength == 1:
+                            split[i-1] = intList[0]+'.'+'00'
+                        elif getLength == 2:
+                            split[i-1] = intList[0]+'.'+intList[1]+'0'
+                        elif getLength == 3:
+                            split[i-1] = intList[0]+'.'+intList[1]+intList[2]
+                        elif getLength == 4:
+                            split[i-1] = intList[0]+intList[1]+'.'+intList[2]+intList[3]
+                        else:
+                            split[i-1] = split[i-1]
+                except ValueError:
+                    continue
+                    
+        for i in range(len(split)+1):
+            try:
+                single = split[i]
+                testNO = split[i-1]
+                try:
+                    if int(single) in np.arange(1,10,1):
+                        if testNO.lower() != 'no':
+                            ind = split.index(single)
+                            split.pop(int(ind))
+                except ValueError:
+                    continue
+            except IndexError:
+                break
+
+        return(' '.join(split))
+    
+                                
+    def findYears(self,mini,maxi):
+        '''
+        finds year(s) in fixed word docx paragraphs associated with respective alcohol
+        '''
+        yearSet = identifyFormat.years(mini,maxi)
+        fixed = identifyFormat.removeSpecial(self)
+        split = fixed.split(' ')
+        y = []
+        for chars in range(len(split)):
+            try:
+                year = int(split[chars])
+                if year and year in yearSet:
+                    y.append(year)
+            except ValueError:
+                continue
+                
+        if len(y) > 0:
+            return(y)
+        else:
+            return(0)
+
+    def wordBottle(self):
+        '''
+        From string of paragraph as input, finds instance of word 'bottle'
+        '''
+        try:
+            test = [x.lower() for x in self.split(' ')]
+            find = test.index('bottle')
+            if find:
+                return(True)
+        except ValueError:
+            return(False)
+        
+    def wordCase(self):
+        '''
+        From string of paragraph as input, finds instance of word 'case'
+        '''
+        try:
+            test = [x.lower() for x in self.split(' ')]
+            find = test.index('case')
+            if find:
+                return(True)
+        except ValueError:
+            return(False)
+        
+    def idNum(self):
+        '''
+        Generates a set of bin ranges for alcohols
+        '''
+        fixed = self.split(' ')
+        import numpy as np
+        set1 = set([n for n in np.arange(1,1880,1)])
+        set2 = set([n for n in np.arange(2000,15000,1)])
+        ID = set(set1.union(set2))
+        potentialIDs = []
+
+        for i in fixed:
+            try:
+                if int(i) in ID:
+                    ind = fixed.index(i)
+                    potentialIDs.append(ind)
+            except ValueError:
+                continue
+            
+        return(potentialIDs)
 
 
 
+def finalForm(para):
+    # 1) In the case of [no bottle/bin numbers & no year] format accordingly
+        # 1.1 [no bottle/bin numbers & with years]
+    
+    
+    
+    #2) In the case of [bottle/bin numbers & no year] format accordingly
+        # 2.2 [bottle/bin numbers & with years]
+    split = para.split(' ')
+    print(split)
+
+
+def mainFunction(allText):
+    counter = 0
+    for i in range(len(allText)):
+        paragraph = allText[i]
+        typ = type(paragraph)
+        if paragraph != '' and paragraph != '\n' and paragraph != '\t' and paragraph != None:
+            if identifyFormat.wordBottle(paragraph) is True or identifyFormat.wordCase(paragraph) is True:
+                
+                print(identifyFormat.removeSpecial(paragraph))
+
+                # RUN FUNCTIONS ON THIS
+                counter += 1
+                print(counter)
+    
 if __name__ == "__main__":
     allText = wordDocx.getAllParagraphs(wordDocx.fileList(docxPath))
-    print(allText[:1])
+    with open('docxParagraphs.txt', 'w') as F:
+        F.writelines([str(x[0]) if len(x)==1 else ' '.join(x) + '\n' for x in allText])  
+
+    with open('docxParagraphs.txt','r') as file:
+        lines = []
+        for line in file:
+            lines.append(line)
+
+    for i in range(len(lines)):
+        if lines[i].split(' ')[0] == 'Rivero':
+            test123 = lines[i]
+
+    print(test123)
+    new_test = identifyFormat.fixBottlePrices(test123)
+    print('\n',new_test.split('\n')[0])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
