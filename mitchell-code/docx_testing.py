@@ -324,7 +324,37 @@ def mainFunction(allText):
                 # RUN FUNCTIONS ON THIS
                 counter += 1
                 print(counter)
-    
+
+def finalForm(para):
+    '''
+    para is preprocessed paragraph using removeSpecial and fixDigits 
+    '''
+    import nltk
+    text = para.split(' ')
+    indices = []
+    for i,j in enumerate(text):
+        try:
+            if j.find('.') != -1 and isinstance(int(''.join(j.split('.'))),int):
+                indices.append(i)
+        except ValueError:
+            continue
+
+    final = []
+    ind1 = 0
+    for r in range(len(indices)):
+        try:
+            if indices[r+1] - indices[r] == 1:
+                ind2 = indices[r+1] + 1
+                final.append(' '.join(text[ind1:ind2]))
+                ind1 = ind2
+        except IndexError:
+            continue
+        
+    nltkText = [nltk.word_tokenize(x) for x in final]
+    tags = [nltk.pos_tag(x) for x in nltkText]
+    return(final)
+
+
 if __name__ == "__main__":
     allText = wordDocx.getAllParagraphs(wordDocx.fileList(docxPath))
     with open('docxParagraphs.txt', 'w') as F:
@@ -339,9 +369,13 @@ if __name__ == "__main__":
         if lines[i].split(' ')[0] == 'Rivero':
             test123 = lines[i]
 
-    print(test123)
+    print('RAW PARAGRAPH:  ', test123)
     new_test = identifyFormat.fixBottlePrices(test123)
-    print('\n',new_test.split('\n')[0])
+    print('\n', 'FIXED PARGRAPH:  ', new_test.split('\n')[0])
+    print('\n', 'NAME/PRICE EXTRACTION  :  ', finalForm(new_test))
+
+
+
 
 
 
