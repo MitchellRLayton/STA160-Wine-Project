@@ -1,0 +1,142 @@
+data = readRDS("FullBoxes.rds")
+doc.0629 = data$UCD_Lehmann_0629.jpg
+#left bottom right top text confidence
+
+doc.0629$text = gsub('\\.', '', doc.0629$text)
+doc.0629$text = gsub('\\:', '', doc.0629$text)
+
+table = subset(doc.0629, bottom > 3050 & bottom < 4035 & left > 2397)
+table$bottom.diff = ave(table$bottom, FUN=function(x) c(0,diff(x)))
+
+table$index = 0
+t = 1
+table$index[1] = t
+for (i in 1:nrow(table)) {
+  table$index[i] = t
+  if (table$bottom.diff[i] > 67) {
+    t = t+1
+    table$index[i] = t
+  }
+}
+
+#split data by index. i.e. find each line in table
+splitted = NULL
+for (i in 1: max(table$index)) {
+  splitted[[i]] = table[table$index == i, ]
+}
+
+#find if name of wine is on multiple lines
+diff = numeric(max(table$index))
+for (i in 1: max(table$index)) {
+  diff[i] = splitted[[i]]$right[nrow(splitted[[i]])] - splitted[[i]]$left[1]
+}
+
+frame = NULL
+for (i in 1:length(splitted)) {
+  #change bottom.diff in first row to 0 so that subset doesn't remove them
+  splitted[[i]]$bottom.diff[1] = 0
+  #gives back dataframe with each line containing info for each wine
+  frame[i] = paste(splitted[[i]]$text, collapse = ' ')
+}
+
+stringsplit = strsplit(frame, " ")
+for(i in 1:length(stringsplit)) {
+  stringsplit[[i]] = stringsplit[[i]][stringsplit[[i]] != ""]
+}
+
+stringsplit = stringsplit[lapply(stringsplit,length)>2]
+#source: https://stackoverflow.com/questions/19023446/remove-empty-elements-from-list-with-character0
+
+#break up word: strplit
+grepled = NULL
+first_true = NULL
+l = NULL
+p = NULL
+for(i in 1:length(stringsplit)) {
+  grepled[[i]] = grepl("[0-9]{3}", stringsplit[[i]])
+  l[i] = length(grepled[[i]])
+  first_true[i] = which(grepled[[i]] == TRUE)[1]
+  #may include an if statement so that first_true = ... when there's a number in the front
+  #and first_true = ... when there's no number in the front
+  p[i] = l[i] - first_true[i]
+}
+
+for(i in 1:length(stringsplit)) {
+  if(grepled[[i]][l[i]] == FALSE) {
+    stringsplit[[i]] = stringsplit[[i]][1:length(stringsplit[[i]])-1]
+  }
+  if(grepled[[i]][1] == TRUE && grepled[[i]][l[i]] == FALSE) {
+    stringsplit[[i]] = rev(stringsplit[[i]])
+  }
+}
+
+mode = function(v) {
+  uniqv = unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+mode(p)
+
+name = NULL
+price = NULL
+for(i in 1:length(stringsplit)) {
+  name[[i]] = stringsplit[[i]][1:(length(stringsplit[[i]]) - mode(p)) - 1]
+  name[[i]] = paste(name[[i]], collapse = " ")
+  price[[i]] = stringsplit[[i]][(length(stringsplit[[i]]) - mode(p)):length(stringsplit[[i]])]
+  price[[i]] = sub("([[:digit:]]{2,2})$", ".\\1", price[[i]]) 
+}
+
+database = NULL
+database = data.frame("Name" = numeric(length(name)), "Price 1" = numeric(length(price)), "Price 2" = numeric(length(price)))
+database$Name = name
+
+for(i in 1:length(stringsplit)) {
+  database$Price.1[i] = price[[i]][1]
+  database$Price.2[i] = price[[i]][2]
+}
+
+database = na.omit(database)
+
+train = database
+train$Name[1] = "MARCEL BRUT 1966"
+train$Name[2] = "ROEDERER JAMIN BRUT 1966"
+train$Name[3] = "AYALA GOLD BRUT 1966"
+train$Name[4] = "LOUIS ROEDERER BRUT"
+train$Name[5] = "CHARLES HEIDSIECK BRUT"
+train$Name[6] = "CLICQUOT YELLOW LABEL BRUT"
+train$Name[7] = "MOET & CHANDON BRUT IMPERIAL"
+train$Name[8] = "KRUG BRUT RESERVE"
+train$Name[9] = "BOLLINGER BRUT"
+
+train$Price.1[1] = "3.44"
+train$Price.1[2] = "3.89"
+train$Price.1[3] = "4.19"
+train$Price.1[4] = "4.20"
+train$Price.1[5] = "4.89"
+train$Price.1[6] = "5.19"
+train$Price.1[7] = "5.28"
+train$Price.1[8] = "5.45"
+train$Price.1[9] = "5.50"
+
+train$Price.2[1] = "35.91"
+train$Price.2[2] = "39.96"
+train$Price.2[3] = "42.66"
+train$Price.2[4] = "42.75"
+train$Price.2[5] = "48.96"
+train$Price.2[6] = "51.66"
+train$Price.2[7] = "52.47"
+train$Price.2[8] = "54.00"
+train$Price.2[9] = "54.45"
+
+
+adist(paste(train$Name, collapse = " "), paste(database$Name, collapse = " "))
+length(strsplit(paste(train$Name, collapse = " "), "")[[1]])
+
+adist(paste(train$Price.1, collapse = " "), paste(database$Price.1, collapse = " "))
+length(strsplit(paste(train$Price.1, collapse = " "), "")[[1]])
+
+adist(paste(train$Price.2, collapse = " "), paste(database$Price.2, collapse = " "))
+length(strsplit(paste(train$Price.2, collapse = " "), "")[[1]])
+
+
+
