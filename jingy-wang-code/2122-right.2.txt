@@ -1,0 +1,45 @@
+"Name" "price1" "price2"
+"1" "Dekuyper (U.S.)" "3.74" 0
+"2" "Nuyens (U.S.)" "3.75" 0
+"3" "Bardinet (U.S.)" "3.85" 0
+"4" "Garnier (U.S.)" "3.86" 0
+"5" "Menthe by Cointreau (U.S.)" "3.99" 0
+"6" "Bols (U.S.)" "4.04" 0
+"7" "Marie Brizard (France)" "4.07" 0
+"8" "Dolfi (France)" "6.60" 0
+"9" "Cusenier Freezomint (France)" "6.65" 0
+"10" "Berry Bros. (Holland)" "7.16" 0
+"11" "Garnier (U.S.)" "5.40" 0
+"12" "Dettling (Swiss)" "7.84" 0
+"13" "Dopff (Alsace)" "8.93" 0
+"14" "Basler (Switzerland)" "8.82" 0
+"15" "Dolfi (France)" "9.42" 0
+"16" "Bohemian in Decanter" "9.95" 0
+"17" "Amer Picon (France)" "6.72" 0
+"18" "Benedictine (France)" "7.98" 0
+"19" "B & B (France)" "7.98" 0
+"20" "Bols Advocaat (U.S.)" "3.69" 0
+"21" "Bols Cafe (U.S.)" "4.55" 0
+"22" "Bols Banana (U.S.)" "4.24" 0
+"23" "Cassis, Sarrazin (France)" "3.99" 0
+"24" "COintreau (U.S.)" "4.95" 0
+"25" "Cointreau & Cognac (U.S.)" "6.85" 0
+"26" "Cordial Medoc (France)" "7.89" 0
+"27" "Chartreuse Yellow (France)" "7.68" 0
+"28" "Chartreuse Green (France)" "8.76" 0
+"29" "Dolfi Framberry in Kiosk (Alsace)" "9.00" 0
+"30" "DOlfi Goldwasser (Alsace)" "6.60" 0
+"31" "Dolfi Tangerine (France)" "6.60" 0
+"32" "Drambuie (Scotland)" "8.75" 0
+"33" "Grand Marnier (France)" "7.97" 0
+"34" "Pernod 100 (U.S.)" "6.96" 0
+"35" "Southern Comfort (U.S.)" "5.94" 0
+"36" "Strega (Italy)" "5.65" 0
+"37" "Vielle Cure (France)" "6.60" 0
+"38" "S.S. Pierce Dry Martini" "1.99" 0
+"39" "S.S. Pierce Manhattan" "1.99" 0
+"40" "Hiram Walker Manhattan" "3.44" 0
+"41" "Hiram Walker Martini" "3.69" 0
+"42" "Heublien Extra Dry Martini" "3.81" 0
+"43" "Heublien Manhattan" "3.81" 0
+"44" "Heublien Daiquiri" "3.89" 0

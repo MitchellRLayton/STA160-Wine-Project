@@ -1,0 +1,32 @@
+"Name" "price1" "price2"
+"1" "Marie Brizard (France)" "4.07" 0
+"2" "Anis Del Mono (Spain" "6.35" 0
+"3" "Garnier (U.S.)" "3.98" 0
+"4" "Bardinet (U.S.)" "4.02" 0
+"5" "Apricot by Cointreau (U.S.)" "4.08" 0
+"6" "Dolfi (France)" "6.60" 0
+"7" "Zwack Dry (Hungary)" "7.25" 0
+"8" "Nuyens (U.S.)" "3.75" 0
+"9" "Garnier (U.S.)" "3.93" 0
+"10" "Marie Brizard (France)" "4.07" 0
+"11" "Bols (U.S.)" "4.43" 0
+"12" "Berry Bros(Holland)" "7.16" 0
+"13" "Nuyens (U.S.)" "3.75" 0
+"14" " Dekuyper(U.S.)" "3.92" 0
+"15" "Marie Brizard (France)" "4.07" 0
+"16" "Bardinet(U.S.)" "4.18" 0
+"17" "Cacao by Cointreau(U.S.)" "4.20" 0
+"18" "Zwack White Cacao (Hungary)" "6.49" 0
+"19" "Bols (U.S.)" "4.24" 0
+"20" "Dolfi (France)" "6.60" 0
+"21" "Cherry Marnier (France)" "7.44" 0
+"22" "Cherry Heering (Denmark)" "7.85" 0
+"23" "Nuyens (U.S.)" "4.15" 0
+"24" "Dolfi(France)" "6.60" 0
+"25" "Allash (Germany)" "6.74" 0
+"26" "Gilka (U.S.)" "7.30" 0
+"27" "Hildick Black Label (U.S.)" "4.35" 0
+"28" "Laird Three Star (U.S.)" "4.37" 0
+"29" "Calvados, Arc de Triomphe (Normandy)" "5.79" 0
+"30" "Calvados, 25 Year Old (Normandy)" "7.62" 0
+"31" "Calvados, 40 Year Old (Normandy)" "9.67" 0

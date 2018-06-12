@@ -1,0 +1,7 @@
+"Name" "price1" "price2"
+"1" "Tribunet (U.S.)" "1.26" "14.39"
+"2" "Kina Rok(France)" "1.99" "22.65"
+"3" "DUbonnet (U.S.)" "1.89" "20.41"
+"4" "Lillet (France)" "2.26" "24.44"
+"5" "St. Raphael (France)" "2.29" "24.75"
+"6" "Byrrh (France)" "2.63" "26.38"
